@@ -1,0 +1,18 @@
+List of things todo
+
+clients
+1) client should be waiting state and not exit - done
+2) create unique client id and save into session db table
+  2.1 design session table
+  2.2 create session table in postgres server
+  2.3 create repository layer
+  2.4
+
+
+server
+1) Accept multiple clients
+2)
+
+
+common
+1) standardize logging format [datetime][channel][log type] - message

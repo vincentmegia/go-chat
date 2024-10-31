@@ -1,31 +1,36 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net"
+
+	vmlog "vincentmegia.com/chat/pkg/log"
 )
 
 func main() {
-	fmt.Println("starting server version:")
+	lw := vmlog.LogWriter{}
+	lw.Init("DEBUG")
+
+	log.Println("Starting server version:")
 	listener, error := net.Listen("tcp", "localhost:4090")
 	if error != nil {
-		fmt.Println("Error listening for connections: ", error)
+		log.Println("Error listening for connections: ", error)
 		return
 	}
 	defer listener.Close()
 
-	fmt.Println("Server is listening to port 4090")
+	log.Println("Server is listening to port 4090")
 	for {
 		connection, error := listener.Accept()
 		if error != nil {
-			fmt.Println("Error has occured accepting new connection: ", error)
+			log.Println("Error has occured accepting new connection: ", error)
 		}
 		go handleConnection(connection)
 	}
 }
 
 func handleConnection(connection net.Conn) {
-	fmt.Println("Connection has been establised: ", connection.LocalAddr().String())
+	log.Println("Connection has been establised: ", connection.LocalAddr().String())
 	defer connection.Close()
 
 	// Read data sent by client
@@ -37,9 +42,9 @@ func handleConnection(connection net.Conn) {
 			continue
 		}
 		if error != nil {
-			fmt.Println("Byte receive error has occured: ", error)
+			log.Println("Byte receive error has occured: ", error)
 			return
 		}
-		fmt.Printf("Received byte: %s\n", buffer[:n])
+		log.Printf("Received byte: %s", buffer[:n])
 	}
 }
